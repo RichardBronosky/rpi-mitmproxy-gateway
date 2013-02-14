@@ -14,7 +14,7 @@ apt-get -y install git
 apt-get -y install libnss-mdns
 apt-get -y install vim
 rm -rf /home/pi/python_games
-wget http://goo.gl/1BOfJ -O /usr/bin/rpi-update && sudo chmod +x /usr/bin/rpi-update
+wget http://goo.gl/1BOfJ -O /usr/bin/rpi-update && chmod +x /usr/bin/rpi-update
 rpi-update
 echo "$(tput setaf 2)
    .~~.   .~~.
