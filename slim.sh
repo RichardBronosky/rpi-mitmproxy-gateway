@@ -28,11 +28,14 @@ echo "$(tput setaf 2)
    '~ .~~~. ~'
        '~'
 $(tput sgr0)" > /etc/motd
-echo "syntax enable 
+cat << EOF > /home/pi/.vimrc
+syntax enable 
+set hidden
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
-set expandtab" > /home/pi/.vimrc
+set expandtab
+EOF
 cp /etc/skel/.bashrc /home/pi/.bashrc
 echo "export EDITOR=vim" >> /home/pi/.bashrc
 dd if=/dev/zero of=zero.file bs=1024
