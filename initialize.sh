@@ -10,13 +10,18 @@ apt-get -y remove --purge hicolor-icon-theme
 apt-get -y remove --purge raspberrypi-artwork
 apt-get -y remove --purge omxplayer
 rm -rf /home/pi/python_games
+apt-get -y autoremove
 
 # Add useful packages
-apt-get -y autoremove
 apt-get -y update
+# version control
 apt-get -y install git
-apt-get -y install libnss-mdns
+# text editor
 apt-get -y install vim
+# zeroconf/bonjour
+apt-get -y install libnss-mdns
+# python essentials
+apt-get -y install python-dev python-pip
 
 # Update firmware
 wget http://goo.gl/1BOfJ -O /usr/bin/rpi-update && chmod +x /usr/bin/rpi-update
@@ -40,7 +45,8 @@ EOF
 
 # Setup vim
 cp /etc/skel/.bashrc /home/pi/.bashrc
-echo "export EDITOR=vim" >> /home/pi/.bashrc
+echo "export EDITOR=vim" >> ~/.bashrc
+echo "alias ll='ls -l'" >> ~/.bash_aliases
 cat << EOF > /home/pi/.vimrc
 syntax enable 
 set hidden
@@ -49,6 +55,15 @@ set softtabstop=2
 set shiftwidth=2
 set expandtab
 EOF
+
+# Install mitmproxy (from github until transparent proxying makes its way into the stable release)
+# mitmproxy requirements
+apt-get -y install python-imaging python-imaging-dbg python-lxml python-lxml-dbg python-pyasn1 python-urwid python-openssl python-openssl-dbg
+cd /usr/local/src
+git clone https://github.com/cortesi/netlib
+git clone https://github.com/cortesi/mitmproxy
+( cd netlib && python setup.py install)
+( cd mitmproxy && python setup.py install)
 
 # Flush cache?
 dd if=/dev/zero of=zero.file bs=1024
