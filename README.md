@@ -29,7 +29,7 @@ You can build your own RPi-mitmproxy-gateway by starting with the official image
 
 Once you've created your Raspbian SD card, boot your Raspberry Pi and execute this command from the command prompt:
 
-    sudo bash < <( curl https://github.com/RichardBronosky/rpi-mitmproxy-gateway/raw/master/initialize.sh )
+    sudo bash < <( curl -L https://github.com/RichardBronosky/rpi-mitmproxy-gateway/raw/master/initialize.sh )
     
 This command will take several minutes to complete, and should leave you with a freshly optimized Raspbian installation.
 
