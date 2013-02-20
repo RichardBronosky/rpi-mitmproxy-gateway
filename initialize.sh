@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export HOME=$(bash <<< "echo ~$SUDO_USER")
 
 ## No bash script should be considered releasable until it has this! ##
 # Exit on use of an uninitialized variable
