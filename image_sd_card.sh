@@ -29,3 +29,4 @@ trap 'rm $CACHE_DIR/$VERSION.img' EXIT
 unzip $CACHE_DIR/$VERSION.zip -d $CACHE_DIR/
 sudo umount $DISK* || true
 time sudo dd bs=1m if=$CACHE_DIR/$VERSION.img of=$DISK
+sleep 4; sudo umount $DISK* || true
