@@ -88,7 +88,8 @@ git clone https://github.com/cortesi/mitmproxy
 ( cd netlib && python setup.py install)
 ( cd mitmproxy && python setup.py install)
 
-# Flush cache?
-dd if=/dev/zero of=zero.file bs=1024
+# Flush cache? Zero out drive?
+# Make sure the file gets deleted even if there is an error or someone presses ctrl-c
+trap 'rm zero.file' EXIT
+dd if=/dev/zero of=zero.file bs=1024 || true
 sync; sleep 60; sync
-rm zero.file
