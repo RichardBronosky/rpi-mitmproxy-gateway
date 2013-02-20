@@ -70,7 +70,7 @@ fi
 
 # Setup vim
 echo "export EDITOR=vim" >> ~/.bashrc
-cat << EOF > ~/.vimrc
+cat << EOF >> ~/.vimrc
 syntax enable 
 set hidden
 set tabstop=2
