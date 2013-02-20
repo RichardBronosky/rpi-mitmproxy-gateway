@@ -51,11 +51,23 @@ $(tput setaf 2)
 $(tput sgr0)
 EOF
 
-# Setup vim
+# Setup shell
 cp /etc/skel/.bashrc /home/pi/.bashrc
-echo "export EDITOR=vim" >> ~/.bashrc
 echo "alias ll='ls -l'" >> ~/.bash_aliases
-cat << EOF > /home/pi/.vimrc
+read -p 'ssh pubkey (conent or URL to pubkey): '
+if [[ -n $REPLY ]]; then
+  (umask 077; mkdir -p ~/.ssh; touch ~/.ssh/authorized_keys)
+  echo >> ~/.ssh/authorized_keys
+  if [[ $REPLY =~ ^https?:// ]]; then
+    curl -sL $REPLY >> ~/.ssh/authorized_keys
+  else
+    echo $REPLY >> ~/.ssh/authorized_keys
+  fi
+fi
+
+# Setup vim
+echo "export EDITOR=vim" >> ~/.bashrc
+cat << EOF > ~/.vimrc
 syntax enable 
 set hidden
 set tabstop=2
