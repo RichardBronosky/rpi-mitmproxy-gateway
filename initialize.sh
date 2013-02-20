@@ -88,6 +88,10 @@ git clone https://github.com/cortesi/mitmproxy
 ( cd netlib && python setup.py install)
 ( cd mitmproxy && python setup.py install)
 
+# Install driver router AP software
+git clone https://github.com/RichardBronosky/RTL8188-hostapd
+RTL8188-hostapd/scripts/setup.sh
+
 # Flush cache? Zero out drive?
 # Make sure the file gets deleted even if there is an error or someone presses ctrl-c
 trap 'rm zero.file' EXIT
