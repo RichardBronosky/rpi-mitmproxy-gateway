@@ -27,6 +27,8 @@ apt-get -y update
 apt-get -y install git
 # text editor
 apt-get -y install vim
+# terminal multiplexer
+apt-get -y install tmux
 # zeroconf/bonjour
 apt-get -y install libnss-mdns
 # python essentials
