@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# This script looks for the following environment variables and prompts if they are not present:
+# DISK
+
 # Todo: Make script detect the latest version of raspbian.
 
 ## No bash script should be considered releasable until it has this! ##
@@ -31,7 +34,9 @@ if [[ $(uname) == Darwin ]]; then
 else
   sudo parted -l | grep -A1 'Model:'
 fi
-read -p 'which disk? ' DISK
+while [[ -z ${DISK:-} ]]; do
+  read -p 'which disk? ' DISK
+done;
 
 # make sure the unzipped image file gets deleted
 trap 'rm $CACHE_DIR/$VERSION.img' EXIT
