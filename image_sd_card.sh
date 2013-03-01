@@ -9,6 +9,15 @@ set -o errexit
 
 VERSION=2013-02-09-wheezy-raspbian
 CACHE_DIR=~/.raspbian
+
+doUnmount(){
+  if [[ $(uname) == Darwin ]]; then
+    for d in $DISK*; do diskutil unmount $d || true; done
+  else
+    for d in $DISK*; do umount $d || true; done
+  fi
+}
+
 if [[ ! -f $CACHE_DIR/$VERSION.zip ]]; then
   (
     mkdir -f $CACHE_DIR
@@ -27,6 +36,13 @@ read -p 'which disk? ' DISK
 # make sure the unzipped image file gets deleted
 trap 'rm $CACHE_DIR/$VERSION.img' EXIT
 unzip $CACHE_DIR/$VERSION.zip -d $CACHE_DIR/
-sudo umount $DISK* || true
-time sudo dd bs=1m if=$CACHE_DIR/$VERSION.img of=$DISK
-sleep 4; sudo umount $DISK* || true
+
+doUnmount
+
+if which pv; then
+  pv $CACHE_DIR/$VERSION.img | sudo dd bs=1m of=$DISK
+else
+  time sudo dd bs=1m if=$CACHE_DIR/$VERSION.img of=$DISK
+fi
+
+sleep 4; doUnmount
