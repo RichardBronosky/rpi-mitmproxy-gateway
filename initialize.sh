@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-export HOME=$(bash <<< "echo ~$SUDO_USER")
+# This script looks for the following environment variables and prompts if they are not present:
+# PUBKEY
+# INSTALL_USER
+
+[[ -z $INSTALL_USER ]] && export INSTALL_USER=$SUDO_USER
+export HOME=$(bash <<< "echo ~$INSTALL_USER")
 
 ## No bash script should be considered releasable until it has this! ##
 # Exit on use of an uninitialized variable
@@ -55,17 +60,19 @@ $(tput sgr0)
 EOF
 
 # Setup shell
-cp /etc/skel/.bashrc /home/pi/.bashrc
+cp /etc/skel/.bashrc ~/.bashrc
 echo "alias ll='ls -l'" >> ~/.bash_aliases
-read -p 'ssh pubkey (conent or URL to pubkey): '
-if [[ -n $REPLY ]]; then
+chown -R $(id -un $INSTALL_USER):$(id -gn $INSTALL_USER) ~/.bashrc ~/.bash_aliases
+[[ -z $PUBKEY ]] && read -p 'ssh pubkey (conent or URL to pubkey): ' PUBKEY
+if [[ -n $PUBKEY ]]; then
   (umask 077; mkdir -p ~/.ssh; touch ~/.ssh/authorized_keys)
   echo >> ~/.ssh/authorized_keys
-  if [[ $REPLY =~ ^https?:// ]]; then
-    curl -sL $REPLY >> ~/.ssh/authorized_keys
+  if [[ $PUBKEY =~ ^https?:// ]]; then
+    curl -sL $PUBKEY >> ~/.ssh/authorized_keys
   else
-    echo $REPLY >> ~/.ssh/authorized_keys
+    echo $PUBKEY >> ~/.ssh/authorized_keys
   fi
+  chown -R $(id -un $INSTALL_USER):$(id -gn $INSTALL_USER) ~/.ssh
 fi
 
 # Setup vim
